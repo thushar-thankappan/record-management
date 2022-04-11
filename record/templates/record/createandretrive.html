@@ -1,0 +1,54 @@
+{% extends 'record/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="row">
+
+    <div class="col-sm-4">
+        <h3 class="text-center alert alert-info">Enter Info here</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success text-center" type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="col-sm-8">
+        <h3 class="text-center alert alert-info">Detail Information</h3>
+        {% if info %}
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Sl No:</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for in in info %}
+              <tr>
+                <th scope="row">{{in.id}}</th>
+                <td>{{in.name}}</td>
+                <td>{{in.email}}</td>
+                <td>{{in.password}}</td>
+                <td>
+                    <a href="{% url 'updatedata' in.id %}" class="btn btn-sm btn-warning">Update</a>
+                    <form action="{% url 'deletedata' in.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                </td>
+              </tr>
+                 {% endfor %}
+            </tbody>
+          </table> 
+        {% else %}
+            <h4 class="text-center alert alert-info">No Record Found</h4>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock content%}
